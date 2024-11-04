@@ -9,45 +9,44 @@ Na inputu jméno, příjmení. Na výstupu jeden ze 3 možných pozdravů včetn
 * pozdrav podle denní doby
 """
 
-##############################################################
-### Jak vymazat terminál před opětovným spuštěním - cls pro Win, clear pro Unix-like systémy
+
 
 import os
-
-# Vymazání obrazovky terminálu (Windows)
-os.system("cls")
-
-
-##############################################################
-### Základní verze - vždy stejná odpověď
-
-# Získání jména a příjmení od uživatele
-first
-
-
-# Generování pozdravu bez náhodného prvku a zobrazení v terminálu
-
-
-##############################################################
-### Rozšířená verze - pseudonáhodný výběr bez zamíchání
-# vytvořit greetings jako list pozdravů
-
 import random
+import datetime
 
-
-
-##############################################################
-### Rozšířená verze - random seed()
-
-# zamíchání, někdy se také používá s knihovnou time: inicializace seed pomocí time: random.seed(time.time())
-# side effect provedení v této části kódu má za následek i zamíchání volby při opětovném volání
+os.system("cls")
 
 random.seed()
 
+first_name = input("Enter your first name: ")
+surname = input("Enter your surname: ")
 
 
-##############################################################
-### *verze - pozdrav podle denní doby
+print(f"Hello {first_name} {surname}")
 
-import datetime
+greetings = [
+    f"Hello {first_name} {surname}",
+    f"Hi there, {first_name} {surname}",
+    f"What's good, {first_name} {surname}!"
+]
+print(f"{random.choice(greetings)}")
+
+
+time_now = datetime.datetime.now()
+
+
+if time_now.hour > 0 and time_now.hour <= 12:
+    print(f"[*] Good Morning! {first_name} {surname}")
+elif time_now .hour > 12 and time_now .hour <= 18:
+    print(f"Good Afternoon! {first_name} {surname}")
+else:
+    print(f" Good Evening! {first_name} {surname}")
+
+
+
+
+
+
+
 
