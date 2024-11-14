@@ -14,11 +14,16 @@ Rozšířená Caesarova šifra
 MY_ALPHABET = "aábcčdďeéěfghijklmnňoópqrřsštťuůúvwxyzž0123456789.,-+?!AÁBCČDĎEÉĚFGHIJKLMNŇOÓPQRŘSŠTŤUŮÚVWXYZŽ"
 SECRET_TEXT = "Vo 80 +trtx 8ňw0+o óňzrň ó04p, 6ú y.6í 204ňrú8 6s +7íy Pňs6ň40+ú ůňyóň"
 
-##############################################################
-# Caesar - posun každého znaku o jiný počet dle vzoru
-
 def shift_char(char, shift, decrypted=False):
-    """Posun znaků o určité množství dle indexu v abecedě."""
+    """
+    Posune daný znak `char` o určitou hodnotu `shift` v rámci MY_ALPHABET.
+    Pokud je `decrypted` True, provádí opačný posun (pro dešifrování).
+
+    :param char: znak k posunutí
+    :param shift: hodnota posunu
+    :param decrypted: logická hodnota určující, zda má být text dešifrován
+    :return: posunutý znak nebo původní znak, pokud není v MY_ALPHABET
+    """
     if char in MY_ALPHABET:
         pos = MY_ALPHABET.index(char)
         if decrypted:
@@ -28,35 +33,55 @@ def shift_char(char, shift, decrypted=False):
     return char
 
 def caesar_cipher_multi_shift(shifts, text, decrypted=False):
-    """Použití Caesarovy šifry na úrovni znaků s různým posunem dle vzoru."""
+    """
+    Šifruje nebo dešifruje text pomocí Caesarovy šifry s různými posuny pro každý znak.
+
+    :param shifts: seznam posunů pro každý znak
+    :param text: text k zašifrování nebo dešifrování
+    :param decrypted: logická hodnota určující, zda má být text dešifrován
+    :return: šifrovaný nebo dešifrovaný text
+    """
     output = ""
     for i, char in enumerate(text):
         shift = shifts[i % len(shifts)]
         output += shift_char(char, shift, decrypted)
     return output
 
-##############################################################
-# Caesar - posun slov ve větě s daným posunem
-
 def caesar_word_shift(text, shift):
-    """Posun slov v textu o určité množství."""
+    """
+    Posune slova v textu o zadaný posun `shift`.
+
+    :param text: text k úpravě
+    :param shift: hodnota posunu slov
+    :return: text s posunutými slovy
+    """
     words = text.split()
     shift %= len(words)
     shifted_words = [words[(i + shift) % len(words)] for i in range(len(words))]
     return ' '.join(shifted_words)
 
 def rearrange_sentence(text, shift):
-    """Alternativní způsob přesunu slov ve větě."""
+    """
+    Alternativně posune slova ve větě dle zadaného `shift`.
+
+    :param text: text k úpravě
+    :param shift: hodnota posunu slov
+    :return: text s alternativně posunutými slovy
+    """
     words = text.split()
     shift %= len(words)
     rearranged_words = words[shift:] + words[:shift]
     return ' '.join(rearranged_words)
 
-##############################################################
-# Caesar - hrubá síla dešifrování zprávy pomocí známé abecedy
-
 def decrypt_caesar(encrypted_text, shift, alphabet):
-    """Dešifrování Caesarovy šifry s daným posunem."""
+    """
+    Dešifruje Caesarovu šifru daným posunem `shift` a použitou `alphabet`.
+
+    :param encrypted_text: šifrovaný text
+    :param shift: hodnota posunu
+    :param alphabet: abeceda použitá pro šifrování
+    :return: dešifrovaný text
+    """
     decrypted_text = ""
     for char in encrypted_text:
         if char in alphabet:
@@ -66,9 +91,6 @@ def decrypt_caesar(encrypted_text, shift, alphabet):
         else:
             decrypted_text += char
     return decrypted_text
-
-##############################################################
-# Spuštění programu - MAIN
 
 if __name__ == "__main__":
     # Posun jednotlivých znaků dle vzoru

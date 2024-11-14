@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
-"""_summary_
+
+"""
 07_hash_hesla.py
 
 * Hesla od uživatelů NELZE uchovávat jako plain text, proto se pokuste vymyslet hash metodu šifrování hesel.
@@ -15,28 +16,42 @@
 import os
 import hashlib
 
-
 # Globální konstanty a proměnné
-FILE_NAME = "users.txt"         # název souboru pro credentials file
+FILE_NAME = "users.txt"         # název souboru pro credentials
 
-
-##############################################################
-### Hashování, registrace, login, zápis do souboru FILE_NAME
-# funkce hash_password, register_user, login_user
-# zaměřit se na vstupy od uživatele a dořešit možné komplikace - není v řešení
 
 def hash_password(password):
+    """
+    Vytvoří SHA-256 hash pro dané heslo.
+
+    :param password: heslo jako řetězec, které chceme zahashovat
+    :return: hash hesla jako hexadecimální řetězec
+    """
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-def register_user(password,email):
+def register_user(email, password):
+    """
+    Registruje nového uživatele pomocí e-mailu a hesla. Heslo je zahashováno a uloženo spolu s e-mailem do textového souboru.
+
+    :param email: e-mail uživatele jako řetězec
+    :param password: heslo uživatele jako řetězec
+    :return: Žádná návratová hodnota, vypíše potvrzení úspěšné registrace.
+    """
     hashed_password = hash_password(password)
-    with open (FILE_NAME, 'a' ) as file:
+    with open(FILE_NAME, 'a') as file:
         file.write(f"{email},{hashed_password}\n")
     print("Registrace byla úspěšná!")
 
 
-def login_user(password, email):
+def login_user(email, password):
+    """
+    Ověří přihlašovací údaje uživatele. Porovná zadaný e-mail a hash hesla s údaji uloženými v souboru.
+
+    :param email: e-mail uživatele jako řetězec
+    :param password: heslo uživatele jako řetězec
+    :return: True, pokud se e-mail i heslo shodují se záznamem v souboru; jinak False
+    """
     hashed_password = hash_password(password)
   
     try:
@@ -48,11 +63,9 @@ def login_user(password, email):
                         return True
                     else:
                         return False
-        return False  
+        return False  # Email nenalezen
     except FileNotFoundError:
-        return False  
-        
-
+        return False  # Soubor neexistuje
 
 ##############################################################
 ### Spuštění programu - MAIN
@@ -62,9 +75,20 @@ if __name__ == "__main__":
 
     # Test registrace/přihlášení
     while True:
-      choice = input("\nChcete se registrovat nebo přihlásit? (r/p) nebo q pro ukončení: ").lower()
-      if input ==  'q':
-          break
-      elif input == 'r':
-          
-
+        choice = input("\nChcete se registrovat nebo přihlásit? (r/p) nebo q pro ukončení: ").lower()
+        
+        if choice == 'q':
+            break
+        elif choice == 'r':
+            email = input("Zadejte váš e-mail: ")
+            password = input("Zadejte heslo: ")
+            register_user(email, password)
+        elif choice == 'p':
+            email = input("Zadejte váš e-mail: ")
+            password = input("Zadejte heslo: ")
+            if login_user(email, password):
+                print("Přihlášení úspěšné!")
+            else:
+                print("Neplatné přihlašovací údaje!")
+        else:
+            print("Neplatná volba, zkuste to znovu.")
