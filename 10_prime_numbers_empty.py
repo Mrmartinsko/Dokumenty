@@ -40,7 +40,7 @@ import numpy as np
 ### Oveření prvočísla
 # Funkce get_positive_integer_input, is_prime 
 
-def get_positive_integer_input(inp = "input prime number"):
+def get_positive_integer_input(inp = "input prime number: "):
     while True:
         try:
             userinput = int(input(inp))
@@ -56,7 +56,10 @@ def is_prime(n):
         return True
     if n % 2 == 0:
         return False
-    for i in range():
+    for i in range(3, int(n ** 0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
     
 
            
@@ -68,8 +71,17 @@ def is_prime(n):
 ##############################################################
 ### Vypsání prvočísel od 2 až po n
 # Funkce find_primes_up_to, print_primes_up_to
-def find_primes_up_to():
-    
+def find_primes_up_to(n):
+    primes = []
+    for i in range(2,n):
+        if is_prime(i):
+            primes.append(i)
+    return primes
+
+def print_primes_up_to(n):
+    primes = find_primes_up_to(n)
+    print(f"Prvočísla až do {n} jsou: {primes}")
+
 
 
 ##############################################################
