@@ -110,6 +110,21 @@ def get_number_of_questions(total_questions):
             print("zadejte platné číslo")
 
 
+def ask_question(question, index):
+    """Zobrazí otázku a odpovědi uživateli, získá jeho odpověď.
+    Args:
+        question: dict, otázka se zamíchanými odpověďmi.
+        index: int, pořadí otázky.
+    Returns:
+        bool, True pokud uživatel odpověděl správně, jinak False.
+    """
+    os.system('clear' if os.name == 'posix' else 'cls')
+    print(f"{question['author']}")
+    print(f"{question}{index+1}")
+    while True: 
+        
+
+
 
     
 ##############################################################
